@@ -37,13 +37,13 @@ Compreende dez anos (01/01/2015 - 01/01/2025) de dados referentes ao preço do c
 4. **Preparação dos Dados para o Modelo LSTM**:
    - Normalização dos dados para uma escala 0-1 utilizando o `MinMaxScaler`.
    - Divisão dos dados em conjuntos de treinamento (80%) e teste (20%).
-   - Criação de sequências de dados para treinamento e teste do modelo LSTM com uma janela de tempo fixa (`window_size`) de 60 dias.
+   - Criação de sequências de dados para treinamento e teste do modelo LSTM com uma janela de tempo deslizante (`window_size`) de 60 dias.
 
 5. **Construção do Modelo MLP**:
    - Definição do modelo MLP com camadas sequenciais:
-    - Uma camada densa (Dense) com 64 neurônios e função de ativação relu, recebendo como entrada um vetor de tamanho window_size.
+    - Uma camada densa (Dense) com 512 neurônios e função de ativação relu, recebendo como entrada um vetor de tamanho window_size.
     - Uma camada de Dropout com taxa de 20% para reduzir overfitting.
-    - Uma segunda camada densa com 32 neurônios e ativação relu.
+    - Uma segunda camada densa com 64 neurônios e ativação relu.
     - Outra camada de Dropout com taxa de 20%.
     - Uma camada densa final com 1 neurônio (fully conected) para produzir a saída da previsão.
   
@@ -84,11 +84,11 @@ Compreende dez anos (01/01/2015 - 01/01/2025) de dados referentes ao preço do c
 A avaliação do modelo aponta os seguintes resultados para as métricas de performance:
 
 1. **MAE (Mean Absolute Error)**:
-O MAE é de R$ 26.12, ou seja, em média, as previsões do modelo estão desviando dos dados reais por R$ 26.12. Esse valor é relativamente pequeno, sugerindo que o modelo está fazendo previsões próximas aos dados reais na maioria das vezes.
+O MAE é de R$ 25,83, ou seja, em média, o modelo erra 25,83 unidades em relação ao valor real do preço do café. Não é um valor significativo, dado o tamanho do intervalo dos preços do café, e indica previsões coerentes.
 2. **MAPE (Mean Absolute Percentage Error)**:
-O MAPE é de 2.20% e, portanto, indica um erro de 2.20% em média entre os dados reais e os dados previstos. Da mesma forma, essa métrica sugere que o modelo produz previsões precisas, com erros percentuais pequenos.
+O MAPE é de 2,19% e, portanto, mostra um erro de 2,19% em média entre os dados reais e os dados previstos. No contexto econômico, esse é um percentual pequeno, especialmente tratando-se de dados ruidosos como preços de commodities.
 3. **RMSE (Root Mean Squared Error)**:
-O RMSE é de R$ 37.97 e, uma vez que o RMSE é mais sensível a grandes erros do que o MAE, esse resultado mais alto mostra que, embora a média dos erros seja pequena, há algumas previsões em que o modelo erra significativamente, provavelmente em casos isolados ou extremos (outliers).
+O RMSE é de R$ 37,31 e, visto que o RMSE penaliza mais os grandes erros, quando comparado ao MAE, esse resultado sugere que existem erros mais altos esporádicos, ainda dentro de um limite razoável.
 
 Podemos concluir que o modelo MLP conseguiu extrair padrões relevantes dos dados, apresentando desempenho competitivo, conforme indicado pelos baixos valores das métricas de performance no conjunto de validação, mesmo sem considerar explicitamente a estrutura temporal das séries. No entanto, o modelo [LSTM](https://github.com/julianacamilen/modelo-lstm-cafe-arabica) apresentou desempenho superior, evidenciando sua maior capacidade de capturar dependências temporais nos dados.
 
